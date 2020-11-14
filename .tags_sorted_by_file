@@ -1,0 +1,17 @@
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+main	main.cpp	/^int main(int argc, char *argv[])$/;"	f
+Widget	widget.cpp	/^Widget::Widget(QWidget *parent) :$/;"	f	class:Widget
+init	widget.cpp	/^void Widget::init(){$/;"	f	class:Widget
+on_connectBtn_clicked	widget.cpp	/^void Widget::on_connectBtn_clicked()$/;"	f	class:Widget
+~Widget	widget.cpp	/^Widget::~Widget()$/;"	f	class:Widget
+Ui	widget.h	/^namespace Ui {$/;"	n
+WIDGET_H	widget.h	2;"	d
+Widget	widget.h	/^class Widget : public QWidget$/;"	c
+myWidget	widget.h	/^	static Widget *myWidget; $/;"	m	class:Widget
+tcpserver	widget.h	/^    QTcpServer* tcpserver;$/;"	m	class:Widget
+ui	widget.h	/^    Ui::Widget *ui;$/;"	m	class:Widget
