@@ -1,7 +1,7 @@
 #include "widget.h"
 #include "ui_widget.h"
 #include "qdebug.h"
-
+#include <QMessageBox>
 
 Widget::Widget(QWidget *parent) :
 QWidget(parent),
@@ -11,32 +11,36 @@ ui(new Ui::Widget)
 	this->initForm();
 }
 
-Widget::~Widget()
-{
+Widget::~Widget(){
 	delete ui;
 }
 void Widget::onAccept(){
 	QTcpSocket* newSocket = tcpserver->nextPendingConnection();
-	if(newSocket == nullptr){
-		return;
-	}
+	ui->sendBtn->setDisabled(false);
+
 	connect(newSocket, &QTcpSocket::disconnected, this, &Widget::clientDisconnect);
-	connect(newSocket, &QTcpSocket::readyRead, this, &Widget::readMsg);
+    connect(newSocket, &QTcpSocket::readyRead, this, &Widget::readMsg);
+
 	QString ipaddr = newSocket->peerAddress().toString();
 	QString portstr = tr("%1").arg(newSocket->peerPort());
 	QString msg = "new client[" + ipaddr + ":" + portstr + "] connected!";
 	ui->dataReceive->append(msg);
 
 	clientList.append(ipaddr + ":" + portstr);
-
-	clientComboBox->addItem(ipaddr + ":" + tr("%1").arg(newSocket->peerPort()));
+    QVariant qv;
+    qv.setValue(newSocket);
+    qDebug() << qv;
+    clientComboBox->addItem(ipaddr + ":" + portstr, qv);
+}
+void Widget::sendMsg(){
+    qDebug() << "sendMsg!";
 }
 void Widget::readMsg(){
 	QTcpSocket* MsgFrom = static_cast<QTcpSocket*>(sender());
 
     // QByteArray qba= MsgFrom->readAll();
 	QByteArray qba = MsgFrom->read(20);
-
+	qDebug() << "qba" << qba;
 	QString ss = QVariant(qba).toString();
 	QString client = MsgFrom->peerAddress().toString() + ":"+ tr("%1").arg(MsgFrom->peerPort());
 	QString msg = "msgFrom:" + client + ":" + ss;
@@ -52,6 +56,9 @@ void Widget::clientDisconnect(){
 
 	int index = clientComboBox->findText(disconnectClient);
 	clientComboBox->removeItem(index);
+
+	ui->sendBtn->setDisabled(!clientComboBox->count());
+
 	disconnectSocket->deleteLater();
 }
 
@@ -59,7 +66,6 @@ void Widget::on_connectBtn_clicked()
 {
 	if(ui->connectBtn->text() == "启动"){
 		quint16 port = quint16(ui->Port->text().toUInt());
-		qDebug() << port;
 		tcpserver->listen(QHostAddress::AnyIPv4, port);
 		if(tcpserver->isListening()){
 //            connect(tcpserver, &QTcpServer::newConnection, this, &Widget::onAccept);
@@ -99,8 +105,10 @@ void Widget::initForm(){
 	ui->sendBtn->setDisabled(true);
 	widgetStatus = true;
 	tcpserver = new QTcpServer();
+
 	connect(tcpserver, &QTcpServer::newConnection, this, &Widget::onAccept);
-	qDebug() << "init server:" << tcpserver;
+
+
 	clientCboxLabel = new QLabel(tr("连接客户端:"));
 	clientComboBox = new QComboBox();
 	ui->horizontalLayout_3->addWidget(clientCboxLabel,2);
@@ -111,15 +119,13 @@ void Widget::initForm(){
 	ui->Port->setText(tr("8000"));
 }
 
-void Widget::on_protocolCombox_currentIndexChanged(int index)
-{
+void Widget::on_protocolCombox_currentIndexChanged(int index){
 	if(index == 0){
 		if(!widgetStatus){
 			clientCboxLabel->show();
 			clientComboBox->show();
 
 			if(!tcpserver->isListening()){
-				qDebug() << tcpserver->isListening();
 				ui->connectBtn->setText(tr("启动"));
 			}
 
@@ -137,15 +143,25 @@ void Widget::on_protocolCombox_currentIndexChanged(int index)
 				ui->connectBtn->setText(tr("连接"));
 			}
 		}
-
 	}
 }
 
+void Widget::on_sendBtn_clicked(){
+    QString strText = ui->sendMsg->toPlainText();
+    qDebug() << strText.toStdString().data();
+    if(strText == ""){
+        QMessageBox::information(nullptr, "提示", "发送数据为空，请输入内容。",QMessageBox::Ok,QMessageBox::Ok);
+    }
+    else{
+        QTcpSocket* currentSocket = clientComboBox->currentData().value<QTcpSocket*>();
+        qint64 len = qint64(strlen(strText.toStdString().data()));
+        currentSocket->write(strText.toStdString().data(), len);
+    }
+}
 void Widget::displayError(){
 	ui->dataReceive->append("error!");
 }
-
-void Widget::on_clearMsgBtn_clicked()
-{
+void Widget::on_clearMsgBtn_clicked(){
 	ui->dataReceive->clear();
 }
+

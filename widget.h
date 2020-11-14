@@ -23,6 +23,7 @@ public:
     void onAccept();
     void clientDisconnect();
     void readMsg();
+    void sendMsg();
     void displayError();
     ~Widget();
     void test();
@@ -32,6 +33,8 @@ private slots:
     void on_protocolCombox_currentIndexChanged(int index);
     void on_clearMsgBtn_clicked();
 
+    void on_sendBtn_clicked();
+
 protected:
     // void incomingConnection(qintptr socketDescriptor);
 
@@ -40,6 +43,7 @@ private:
     QLabel* clientCboxLabel;
 	QComboBox* clientComboBox;
     QTimer* timer;
+    QMap<QString, QTcpSocket*> clientMap;
     QList<QString> clientList;
 //    QMap<QString, QString> clientMap;
     Ui::Widget *ui;
