@@ -19,6 +19,7 @@ class Widget : public QWidget
 public:
     explicit Widget(QWidget *parent = nullptr);
     QTcpServer* tcpserver;
+    QTcpSocket* clientSocket;
     void initForm();
     void onAccept();
     void clientDisconnect();
@@ -32,14 +33,18 @@ private slots:
     void on_connectBtn_clicked();
     void on_protocolCombox_currentIndexChanged(int index);
     void on_clearMsgBtn_clicked();
-
     void on_sendBtn_clicked();
+
+    void on_pushButton_4_clicked();
 
 protected:
     // void incomingConnection(qintptr socketDescriptor);
 
 private:
+    qint32 sendCount;
+    qint32 receiveCount;
     bool widgetStatus;
+    bool ProStatus;
     QLabel* clientCboxLabel;
 	QComboBox* clientComboBox;
     QTimer* timer;

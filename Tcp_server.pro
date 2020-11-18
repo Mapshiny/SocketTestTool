@@ -27,11 +27,13 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         widget.cpp \
+    tcpclient.cpp
 
 
 
 HEADERS += \
         widget.h \
+    tcpclient.h
 
 
 FORMS += \
