@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <QUdpSocket>
 #include <QTimer>
 
 class QComboBox;
@@ -20,14 +21,23 @@ public:
     explicit Widget(QWidget *parent = nullptr);
     QTcpServer* tcpserver;
     QTcpSocket* clientSocket;
+    QUdpSocket* udpServer;
+    QUdpSocket* udpClient;
     void initForm();
     void onAccept();
     void clientDisconnect();
     void readMsg();
-    void sendMsg();
     void displayError();
-    ~Widget();
     void test();
+    void sendMsg(QAbstractSocket*);
+    void tcpServerOpen(quint16);
+    void tcpServerClose();
+    void tcpClientConnect(QHostAddress, quint16);
+    void tcpClientDisconnect();
+    void udpServerOpen(quint16);
+    void udpServerClose();
+    void udpClientConnect(QHostAddress, quint16);
+    ~Widget();
 
 private slots:
     void on_connectBtn_clicked();
@@ -43,8 +53,8 @@ protected:
 private:
     qint32 sendCount;
     qint32 receiveCount;
-    bool widgetStatus;
-    bool ProStatus;
+
+    bool ServerStatus;
     QLabel* clientCboxLabel;
 	QComboBox* clientComboBox;
     QTimer* timer;

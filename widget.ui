@@ -277,6 +277,11 @@ p, li { white-space: pre-wrap; }
          </item>
          <item>
           <property name="text">
+           <string>UDP服务器</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>UDP客户端</string>
           </property>
          </item>
@@ -320,7 +325,7 @@ p, li { white-space: pre-wrap; }
      <item>
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tab">
         <attribute name="title">
@@ -329,8 +334,8 @@ p, li { white-space: pre-wrap; }
         <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
-           <x>9</x>
-           <y>114</y>
+           <x>10</x>
+           <y>120</y>
            <width>168</width>
            <height>33</height>
           </rect>
@@ -363,21 +368,21 @@ p, li { white-space: pre-wrap; }
          </property>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
-           <widget class="QCheckBox" name="checkBox">
+           <widget class="QCheckBox" name="showDate">
             <property name="text">
              <string>显示接收日期</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_2">
+           <widget class="QCheckBox" name="showHex">
             <property name="text">
              <string>16进制显示</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_3">
+           <widget class="QCheckBox" name="showStop">
             <property name="text">
              <string>暂停接收显示</string>
             </property>
@@ -390,15 +395,64 @@ p, li { white-space: pre-wrap; }
         <attribute name="title">
          <string>发送设置</string>
         </attribute>
-        <widget class="QComboBox" name="clientCombox">
+        <widget class="QWidget" name="layoutWidget_2">
          <property name="geometry">
           <rect>
-           <x>15</x>
-           <y>34</y>
-           <width>151</width>
-           <height>31</height>
+           <x>10</x>
+           <y>120</y>
+           <width>168</width>
+           <height>33</height>
           </rect>
          </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QPushButton" name="clearMsgBtn_2">
+            <property name="text">
+             <string>清空显示</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_3">
+            <property name="text">
+             <string>保存数据</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>117</width>
+           <height>101</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
+           <widget class="QCheckBox" name="showDate_2">
+            <property name="text">
+             <string>显示发送日期</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="showHex_2">
+            <property name="text">
+             <string>16进制显示</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="showStop_2">
+            <property name="text">
+             <string>暂停发送显示</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </widget>
       </widget>
